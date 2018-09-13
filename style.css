@@ -1,6 +1,18 @@
-body {
+* {
     margin: 0;
     padding: 0;
+}
+
+
+ul, ol {
+    list-style-type: none;
+}
+
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }
 
 #canvas {
@@ -12,19 +24,51 @@ body {
 #actions {
     position: absolute;
     left: 20px;
-    bottom: 20px;
+    top: 20px;
     cursor: pointer;
     user-select:none;
 }
 
-.actions #brush {
-    display: none;
+
+.brush, .eraser {
+    width: 2em;
+    height: 2em;
+    transition: all 0.3s;
 }
 
-.actions.x #brush {
-    display: inherit;
+.brush.active, .eraser.active {
+    fill: red;
+    transform: scale(1.2);
 }
 
-.actions.x #erazer {
-    display: none;
+.brush-color-list {
+    position: absolute;
+    left: 20px;
+    top: 100px;
+}
+
+.brush-color-list li {
+    width: 20px;
+    height: 20px;
+    margin: 10px 0;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.brush-color-list li.red {
+    background: red;
+}
+.brush-color-list li.green {
+    background: green;
+}
+.brush-color-list li.blue {
+    background: blue;
+}
+.brush-color-list li.black {
+    background: black;
+}
+
+.brush-color-list li.black.active, .brush-color-list li.blue.active, .brush-color-list li.green.active, .brush-color-list li.red.active {
+    box-shadow: rgba(0, 0, 0, 0.95);
+    transform: scale(1.5);
 }

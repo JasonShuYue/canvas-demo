@@ -1,29 +1,70 @@
 
 let div = document.getElementById("canvas");
 let brush = document.getElementById("brush");
-let erazer = document.getElementById("erazer");
-let actions = document.getElementById("actions");
+let eraser = document.getElementById("eraser");
 let context = div.getContext('2d');
+let redBrush = document.getElementById("red");
+let greenBrush = document.getElementById("green");
+let blueBrush = document.getElementById("blue");
+let blackBrush = document.getElementById("black");
 let using = false;
 let useErazer = false;
 let lastPoint = {x:0, y: 0};
 
 setCanvasSize(div);
-context.fillStyle = "black";
 
-
+//  点击画笔
 brush.onclick = function(e) {
     useErazer = false;
-    actions.className = "actions";
+    brush.classList.add("active");
+    eraser.classList.remove("active");
 }
 
-erazer.onclick = function(e) {
+//   点击橡皮擦
+eraser.onclick = function(e) {
     useErazer = true;
-    actions.className = "actions x";
+    eraser.classList.add("active");
+    brush.classList.remove("active");
 }
 
 window.onresize = function() {
     setCanvasSize(div);
+}
+
+redBrush.onclick = function() {
+    context.fillStyle = "red";
+    context.strokeStyle = "red";
+    redBrush.classList.add('active');
+    greenBrush.classList.remove('active');
+    blueBrush.classList.remove('active');
+    blackBrush.classList.remove('active');
+}
+
+greenBrush.onclick = function() {
+    context.fillStyle = "green";
+    context.strokeStyle = "green";
+    greenBrush.classList.add('active');
+    redBrush.classList.remove('active');
+    blueBrush.classList.remove('active');
+    blackBrush.classList.remove('active');
+}
+
+blueBrush.onclick = function() {
+    context.fillStyle = "blue";
+    context.strokeStyle = "blue";
+    blueBrush.classList.add('active');
+    greenBrush.classList.remove('active');
+    redBrush.classList.remove('active');
+    blackBrush.classList.remove('active');
+}
+
+blackBrush.onclick = function() {
+    context.fillStyle = "black";
+    context.strokeStyle = "black";
+    blackBrush.classList.add('active');
+    greenBrush.classList.remove('active');
+    redBrush.classList.remove('active');
+    blueBrush.classList.remove('active');
 }
 
 
@@ -101,18 +142,12 @@ function listenToTouch(target) {
     target.ontouchmove = function(e) {
         if(using) {
             if(useErazer) {
-                console.log(lastPoint)
                 context.clearRect(lastPoint.x - 5, lastPoint.y - 5, 10, 10);
-                lastPoint = {x: e.touches[0].clientX, y: e.touches[0].clientY};
-                console.log(lastPoint)
-
             } else {
-                console.log(lastPoint)
                 drawCircle(e.touches[0].clientX, e.touches[0].clientY, 2);
                 drawLine(lastPoint.x, lastPoint.y, e.touches[0].clientX, e.touches[0].clientY, 6);
-                lastPoint = {x: e.touches[0].clientX, y: e.touches[0].clientY};
-                console.log(lastPoint)
             }
+            lastPoint = {x: e.touches[0].clientX, y: e.touches[0].clientY};
         }
     }
 
