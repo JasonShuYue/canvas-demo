@@ -1,22 +1,29 @@
+var div = document.getElementById("canvas");
 
-let div = document.getElementById("canvas");
+var brush = document.getElementById("brush");
+var eraser = document.getElementById("eraser");
+var clear = document.getElementById("clear");
+var download = document.getElementById("download");
 
-let brush = document.getElementById("brush");
-let eraser = document.getElementById("eraser");
-let clear = document.getElementById("clear");
-let download = document.getElementById("download");
+var context = div.getContext('2d');
+var redBrush = document.getElementById("red");
+var greenBrush = document.getElementById("green");
+var blueBrush = document.getElementById("blue");
+var blackBrush = document.getElementById("black");
+var thinBrush = document.getElementById("thin");
+var thickBrush = document.getElementById("thick");
+var using = false;
+var useErazer = false;
+var lastPoint = {x:0, y: 0};    //上一个点的坐标
+var lineWidth = 6;  //默认画笔宽度
 
-let context = div.getContext('2d');
-let redBrush = document.getElementById("red");
-let greenBrush = document.getElementById("green");
-let blueBrush = document.getElementById("blue");
-let blackBrush = document.getElementById("black");
-let thinBrush = document.getElementById("thin");
-let thickBrush = document.getElementById("thick");
-let using = false;
-let useErazer = false;
-let lastPoint = {x:0, y: 0};    //上一个点的坐标
-let lineWidth = 6;  //默认画笔宽度
+//注意：优先判断是否支持可触屏。
+if(document.body.ontouchstart !== undefined) {
+    //  触屏设备
+    listenToTouch(div);
+} else {
+    listenToMouse(div);
+}
 
 setCanvasSize(div);
 
@@ -42,8 +49,8 @@ clear.onclick = function() {
 //  点击下载
 download.onclick = function() {
     console.log("aaa")
-    let url = div.toDataURL('image/png');
-    let a = document.createElement("a");
+    var url = div.toDataURL('image/png');
+    var a = document.createElement("a");
     document.body.appendChild(a);
     a.href = url;
     a.download = '我的画儿';
@@ -104,13 +111,7 @@ thickBrush.onclick = function() {
 
 
 
-//注意：优先判断是否支持可触屏。
-if(document.body.ontouchstart !== undefined) {
-    //  触屏设备
-     listenToTouch(div);
-} else {
-    listenToMouse(div);
-}
+
 
 function drawCircle(x, y, radius) {
     context.beginPath();
@@ -130,8 +131,8 @@ function drawLine(x1, y1, x2, y2, lineWidth) {
 function listenToMouse(target) {
     //  点击鼠标
     target.onmousedown = function(e) {
-        let x = e.clientX;
-        let y = e.clientY;
+        var x = e.clientX;
+        var y = e.clientY;
         lastPoint = {x: x, y: y};
         using = true;
         if(useErazer) {
@@ -164,8 +165,8 @@ function listenToMouse(target) {
 function listenToTouch(target) {
 
     target.ontouchstart = function(e) {
-        let x = e.touches[0].clientX;
-        let y = e.touches[0].clientY;
+        var x = e.touches[0].clientX;
+        var y = e.touches[0].clientY;
         lastPoint = {x: x, y: y};
         using = true;
         if(useErazer) {
@@ -193,9 +194,10 @@ function listenToTouch(target) {
 }
 
 function setCanvasSize(target) {
-    let pageWidth = document.documentElement.clientWidth;
-    let pageHeight = document.documentElement.clientHeight;
+    var pageWidth = document.documentElement.clientWidth || window.screen.width || document.body.clientWidth;
+    var pageHeight = document.documentElement.clientHeight || window.screen.height || document.body.clientHeight;
     target.width = pageWidth;
     target.height = pageHeight;
 }
+
 
