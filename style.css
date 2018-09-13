@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#canvas {
+    background: gray;
+    position: relative;
+}
+
+#actions {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    cursor: pointer;
+    user-select:none;
+}
+
+.actions #brush {
+    display: none;
+}
+
+.actions.x #brush {
+    display: inherit;
+}
+
+.actions.x #erazer {
+    display: none;
+}
