@@ -1,15 +1,22 @@
 
 let div = document.getElementById("canvas");
+
 let brush = document.getElementById("brush");
 let eraser = document.getElementById("eraser");
+let clear = document.getElementById("clear");
+let download = document.getElementById("download");
+
 let context = div.getContext('2d');
 let redBrush = document.getElementById("red");
 let greenBrush = document.getElementById("green");
 let blueBrush = document.getElementById("blue");
 let blackBrush = document.getElementById("black");
+let thinBrush = document.getElementById("thin");
+let thickBrush = document.getElementById("thick");
 let using = false;
 let useErazer = false;
-let lastPoint = {x:0, y: 0};
+let lastPoint = {x:0, y: 0};    //上一个点的坐标
+let lineWidth = 6;  //默认画笔宽度
 
 setCanvasSize(div);
 
@@ -25,6 +32,22 @@ eraser.onclick = function(e) {
     useErazer = true;
     eraser.classList.add("active");
     brush.classList.remove("active");
+}
+
+//  点击清除
+clear.onclick = function() {
+    context.clearRect(0, 0, div.width, div.height);
+}
+
+//  点击下载
+download.onclick = function() {
+    console.log("aaa")
+    let url = div.toDataURL('image/png');
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    a.href = url;
+    a.download = '我的画儿';
+    a.click();
 }
 
 window.onresize = function() {
@@ -65,6 +88,18 @@ blackBrush.onclick = function() {
     greenBrush.classList.remove('active');
     redBrush.classList.remove('active');
     blueBrush.classList.remove('active');
+}
+
+thinBrush.onclick = function() {
+    lineWidth = 6;
+    thinBrush.classList.add("active");
+    thickBrush.classList.remove("active");
+}
+
+thickBrush.onclick = function() {
+    lineWidth = 12;
+    thickBrush.classList.add("active");
+    thinBrush.classList.remove("active");
 }
 
 
@@ -113,7 +148,7 @@ function listenToMouse(target) {
                 context.clearRect(lastPoint.x - 5, lastPoint.y - 5, 10, 10);
             } else {
                 drawCircle(e.clientX, e.clientY, 2);
-                drawLine(lastPoint.x, lastPoint.y, e.clientX, e.clientY, 6);
+                drawLine(lastPoint.x, lastPoint.y, e.clientX, e.clientY, lineWidth);
             }
             lastPoint = {x: e.clientX, y: e.clientY};
         }
@@ -127,6 +162,7 @@ function listenToMouse(target) {
 }
 
 function listenToTouch(target) {
+
     target.ontouchstart = function(e) {
         let x = e.touches[0].clientX;
         let y = e.touches[0].clientY;
@@ -145,7 +181,7 @@ function listenToTouch(target) {
                 context.clearRect(lastPoint.x - 5, lastPoint.y - 5, 10, 10);
             } else {
                 drawCircle(e.touches[0].clientX, e.touches[0].clientY, 2);
-                drawLine(lastPoint.x, lastPoint.y, e.touches[0].clientX, e.touches[0].clientY, 6);
+                drawLine(lastPoint.x, lastPoint.y, e.touches[0].clientX, e.touches[0].clientY, lineWidth);
             }
             lastPoint = {x: e.touches[0].clientX, y: e.touches[0].clientY};
         }

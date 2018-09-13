@@ -3,6 +3,9 @@
     padding: 0;
 }
 
+body {
+    overflow: hidden;
+}
 
 ul, ol {
     list-style-type: none;
@@ -30,10 +33,11 @@ ul, ol {
 }
 
 
-.brush, .eraser {
+.brush, .eraser, .clear, .download {
     width: 2em;
     height: 2em;
     transition: all 0.3s;
+    margin-right: 10px;
 }
 
 .brush.active, .eraser.active {
@@ -70,5 +74,30 @@ ul, ol {
 
 .brush-color-list li.black.active, .brush-color-list li.blue.active, .brush-color-list li.green.active, .brush-color-list li.red.active {
     box-shadow: rgba(0, 0, 0, 0.95);
+    transform: scale(1.5);
+}
+
+.brush-size {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.brush-size li {
+    margin: 10px 0;
+    width: 20px;
+    height: 0;
+    transition: all 0.3s;
+}
+
+.brush-size .thin {
+    border: 1px solid black;
+}
+
+.brush-size .thick {
+    border: 3px solid black;
+}
+
+.brush-size .thin.active, .brush-size .thick.active {
     transform: scale(1.5);
 }
